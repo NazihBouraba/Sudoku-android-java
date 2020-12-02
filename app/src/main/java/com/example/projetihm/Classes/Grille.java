@@ -16,12 +16,14 @@ public class Grille extends View {
 
     private int screenWidth;
     private int screenHeight;
+    public int taillecase =25;
     private int n;
 
     private Paint paint1;   // Pour dessiner la grille (lignes noires)
     private Paint paint2;   // Pour le texte des cases fixes
     private Paint paint3;   // Pour dessiner les lignes rouges (grosse)
     private Paint paint4;   // Pour le texte noir des cases a modifier
+    private Paint paint5;   // Pour le cadre
 
     private int[][] matrix = new int[9][9];
     private boolean[][] fixIdx = new boolean[9][9];
@@ -58,7 +60,7 @@ public class Grille extends View {
         // Couleur noire
 
         paint2 = new Paint();
-        paint2.setTextSize(25);
+        paint2.setTextSize(30);
         paint2.setColor(Color.parseColor("#E91E63"));
         paint2.setAntiAlias(true);
 
@@ -70,34 +72,54 @@ public class Grille extends View {
         paint3 = new Paint();
         paint3.setColor(Color.parseColor("#E91E63"));
         paint3.setAntiAlias(true);
-        paint3.setStrokeWidth(4);
+        paint3.setStrokeWidth(7);
         // Couleur rouge et grosses lignes
 
         // Paint 4 ?
+
+
+
+        // le cadre
+        paint5 = new Paint();
+        paint5.setStrokeWidth(10);
+        paint5.setAntiAlias(true);
+        paint5.setColor(R.color.black);
+
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         screenWidth = getWidth();
         screenHeight = getHeight();
-        int w = Math.min(screenWidth, screenHeight);
+        int w = Math.min(screenWidth-50, screenHeight-50);
         w = w - (w%9);
         n = w / 9 ;
-
-
+        Paint paint = new Paint();
+        paint.setStrokeWidth(4);
+        paint.setStyle(Paint.Style.STROKE);
         String s;
+
+
         // Dessiner w lignes verticles et w lignes horizontales noires
-        for(int i = 0 ; i<=w ; i += n){
-           // if(i%3!=0)
+        for(int i = 25 ; i<w ; i += n)
+        {
             {
-                canvas.drawLine(i, 0, i, w, paint1);
-                canvas.drawLine(0, i, w, i, paint1);
+               for(int j =25 ; j<w ;j+=n)
+               {
+                canvas.drawRect(i  ,j ,i+n- taillecase,j+n - taillecase,paint);
+               }
+
             }
         }
+        //le cadre
+        canvas.drawLine(0, 0, 0, w+25, paint5);
+        canvas.drawLine(0, 0, w, 0, paint5);
+        canvas.drawLine(w+25, 0, w+25, w, paint5);
+        canvas.drawLine(0, w+25, w, w+25, paint5);
         // Dessiner 2 lignes rouges verticales et 2 lignes rouges horizontales
         for(int i = n*3 ; i<w ; i += n*3){
-            canvas.drawLine(i, 0, i, w, paint3);
-            canvas.drawLine(0, i, w, i, paint3);
+          canvas.drawLine(25+i-taillecase/2, 0, 25+i-taillecase/2, w-10, paint3);
+           canvas.drawLine(0, 25+i-taillecase/2, w-10, 25+i-taillecase/2, paint3);
         }
 
         //remplissage des cases
@@ -105,11 +127,11 @@ public class Grille extends View {
             for (int j = 0; j < 9; j++) {
                 s = "" + (matrix[j][i] == 0 ? "" : matrix[j][i]);
                 if (fixIdx[j][i])
-                    canvas.drawText(s, i * n + (n / 2) - (n / 10), j * n
-                            + (n / 2) + (n / 10), paint2);
+                    canvas.drawText(s, 25+i * n + (n-taillecase)/2 -8 , 25+j * n
+                            + (n-taillecase)/2 +10, paint2);
                 else
-                    canvas.drawText(s, i * n + (n / 2) - (n / 10), j * n
-                            + (n / 2) + (n / 10), paint1);
+                    canvas.drawText(s, 25+i * n + (n-taillecase)/2 -8, 25+j * n
+                            + (n-taillecase)/2 +10, paint1);
             }
         }
 
