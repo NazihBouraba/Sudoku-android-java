@@ -16,19 +16,19 @@ import com.example.projetihm.R;
 
 public class Grille extends View {
 
-    private int screenWidth;
-    private int screenHeight;
-    public int taillecase =25;
+    public int taillecase =0;
     private int n;
     public static int taille_ecran =0;
     private Paint paint1;   // Pour dessiner la grille (lignes noires)
     private Paint paint2;   // Pour le texte des cases fixes
     private Paint paint3;   // Pour dessiner les lignes rouges (grosse)
     private Paint paint4;   // Pour le texte noir des cases a modifier
-    private Paint paint5;   // Pour le cadre
-
-    private int[][] matrix = new int[9][9];
+    private Paint paint5;
+    private Paint paints;// Pour le cadre
+    public int[][] matrix = new int[9][9];
+    public Canvas c ;
     private boolean[][] fixIdx = new boolean[9][9];
+    private boolean[][] intouchable = new boolean[9][9];
 
     public Grille(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -67,6 +67,12 @@ public class Grille extends View {
         paint2.setAntiAlias(true);
 
 
+        paints = new Paint();
+        paints.setTextSize(30);
+        paints.setColor(Color.parseColor("#FF30FF33"));
+        paints.setAntiAlias(true);
+
+
         // Couleur rouge
         // Taille du texte
         // Centre le texte
@@ -84,19 +90,28 @@ public class Grille extends View {
         // le cadre
         paint5 = new Paint();
         paint5.setStrokeWidth(10);
-        paint5.setAntiAlias(true);
+        paint5.setAntiAlias     (true);
         paint5.setColor(R.color.black);
+
+    }
+
+
+    public void dessiner(Canvas c,String s ,int x , int y){
+        this.invalidate();
+
+        this.invalidate();
 
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        screenWidth = getWidth();
-        screenHeight = getHeight();
-        int w = Math.min(screenWidth-50, screenHeight-50);
+        c= canvas ;
+        int screenWidth = getWidth();
+        int screenHeight = getHeight();
+        int w = Math.min(screenWidth -50, screenHeight -50);
         w = w - (w%9);
         taille_ecran = w ;
-        Log.v("taille",""+taille_ecran);
+     //   Log.v("taille",""+taille_ecran);
         n = w / 9 ;
         Paint paint = new Paint();
         paint.setStrokeWidth(4);
@@ -135,7 +150,7 @@ public class Grille extends View {
                             + (n-taillecase)/2 +10, paint2);
                 else
                     canvas.drawText(s, 25+i * n + (n-taillecase)/2 -8, 25+j * n
-                            + (n-taillecase)/2 +10, paint1);
+                            + (n-taillecase)/2 +10, paints);
             }
         }
 
