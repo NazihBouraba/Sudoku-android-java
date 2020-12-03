@@ -8,6 +8,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +20,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class SudokuExamples extends AsyncTask<String, Integer, String> {
+public class SudokuExamples  {
     String url ;
     int v ;
     public SudokuExamples(String s ,int i) {
@@ -24,61 +28,29 @@ public class SudokuExamples extends AsyncTask<String, Integer, String> {
         v= i;
     }
 
-    @Override
-    public String doInBackground(String... strings) {
+    public void gets()
+    {
+        Thread thread = new Thread(new Runnable() {
 
-        URL yahoo = null;
-        try {
-            yahoo = new URL(url+v);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        BufferedReader in = null;
-        try {
-            in = new BufferedReader(
-                    new InputStreamReader(
-                            yahoo.openStream()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            @Override
+            public void run() {
+                try  {
 
-        String inputLine;
+                    Document doc = Jsoup.connect(url+v).get();
+                    Element s =  doc.select("body").first();
+                    System.out.println("merde "+ s.text());
 
-        while (true) {
-            try {
-                if (!((inputLine = in.readLine()) != null)) System.out.println("merde" + inputLine); break;
-            } catch (IOException e) {
-                e.printStackTrace();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+        });
 
-        }
-
-        try {
-            in.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+        thread.start();
     }
 
-    @SuppressLint("SetTextI18n")
-    @Override
-    protected void onProgressUpdate(Integer... values) {
-        super.onProgressUpdate(values);
 
-    }
 
-    @Override
-    protected void onPreExecute() {
 
-        super.onPreExecute();
-
-    }
-
-    @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
-
-    }
 }

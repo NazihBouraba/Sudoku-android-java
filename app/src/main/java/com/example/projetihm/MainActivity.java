@@ -35,9 +35,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button apropos = (Button) findViewById(R.id.apropos);
         apropos.setOnClickListener(this);
 
-        SudokuExamples se = new SudokuExamples("https://labsticc.univ-brest.fr/~bounceur/cours/android/tps/sudoku/index.php?v=",0);
 
-          //  se.doInBackground();
+        new SudokuExamples("https://labsticc.univ-brest.fr/~bounceur/cours/android/tps/sudoku/index.php?v=",0).gets();
+
 
 
 
