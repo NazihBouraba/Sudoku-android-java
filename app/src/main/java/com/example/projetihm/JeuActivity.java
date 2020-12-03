@@ -15,6 +15,8 @@ import android.widget.NumberPicker;
 
 import com.example.projetihm.Classes.Grille;
 
+import java.util.Arrays;
+
 public class JeuActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
 
     private Intent i ;
@@ -41,7 +43,7 @@ public class JeuActivity extends AppCompatActivity implements View.OnClickListen
         i.putExtra("x",x);
         i.putExtra("y",y);
         //Log.v("POSITION","x= "+x+ "y= "+y);
-        if((x<9) && (y<9))
+        if((x<9) && (y<9) && !g.fixIdx[y][x])
          AgeDialog();
       //  startActivity(i);
     }
@@ -71,10 +73,11 @@ public class JeuActivity extends AppCompatActivity implements View.OnClickListen
         alert.setPositiveButton("CHOISIR", new DialogInterface.OnClickListener() {
 
             public void onClick(DialogInterface dialog, int whichButton) {
+
                 g.matrix[y][x] = number.getValue();
                 Log.v("VALEUR","x= "+number.getValue());
                 Log.v("position","x= "+x + "y= "+y);
-                if(g.c != null){g.dessiner(g.c,""+number.getValue(),x,y);}
+                if(g.c != null ){g.dessiner(g.c,""+number.getValue(),x,y);}
             }
         });
 

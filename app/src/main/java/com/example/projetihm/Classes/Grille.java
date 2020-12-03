@@ -27,7 +27,7 @@ public class Grille extends View {
     private Paint paints;// Pour le cadre
     public int[][] matrix = new int[9][9];
     public Canvas c ;
-    private boolean[][] fixIdx = new boolean[9][9];
+    public boolean[][] fixIdx = new boolean[9][9];
     private boolean[][] intouchable = new boolean[9][9];
 
     public Grille(Context context, AttributeSet attrs, int defStyle) {
