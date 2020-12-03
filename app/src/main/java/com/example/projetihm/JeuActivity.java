@@ -34,6 +34,7 @@ public class JeuActivity extends AppCompatActivity implements View.OnClickListen
         i.putExtra("x",index_x);
         i.putExtra("y",index_y);
         Log.v("POSITION","x= "+index_x+ "y= "+index_y);
+        startActivity(i);
     }
 
     @Override
