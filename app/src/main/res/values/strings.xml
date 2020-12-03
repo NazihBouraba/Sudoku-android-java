@@ -2,4 +2,5 @@
     <string name="app_name">Projet IHM</string>
     <string name="jouer">Jouer</string>
     <string name="a_propos">A propos</string>
+    <string name="valider">Valider</string>
 </resources>

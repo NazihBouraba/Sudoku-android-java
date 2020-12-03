@@ -6,10 +6,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import androidx.core.content.ContextCompat;
 
+import com.example.projetihm.JeuActivity;
 import com.example.projetihm.R;
 
 public class Grille extends View {
@@ -93,6 +95,7 @@ public class Grille extends View {
         screenHeight = getHeight();
         int w = Math.min(screenWidth-50, screenHeight-50);
         w = w - (w%9);
+        Log.v("taille",""+w);
         n = w / 9 ;
         Paint paint = new Paint();
         paint.setStrokeWidth(4);
@@ -112,14 +115,14 @@ public class Grille extends View {
             }
         }
         //le cadre
-        canvas.drawLine(0, 0, 0, w+25, paint5);
-        canvas.drawLine(0, 0, w, 0, paint5);
-        canvas.drawLine(w+25, 0, w+25, w, paint5);
-        canvas.drawLine(0, w+25, w, w+25, paint5);
+        canvas.drawLine(10, 0, 10, w+25, paint5);
+        canvas.drawLine(10, 10, w+25, 10, paint5);
+        canvas.drawLine(w+25, 0, w+25, w+25, paint5);
+        canvas.drawLine(10, w+25, w+25, w+25, paint5);
         // Dessiner 2 lignes rouges verticales et 2 lignes rouges horizontales
         for(int i = n*3 ; i<w ; i += n*3){
-          canvas.drawLine(25+i-taillecase/2, 0, 25+i-taillecase/2, w-10, paint3);
-           canvas.drawLine(0, 25+i-taillecase/2, w-10, 25+i-taillecase/2, paint3);
+          canvas.drawLine(25+i-taillecase/2, 10, 25+i-taillecase/2, w, paint3);
+           canvas.drawLine(10, 25+i-taillecase/2, w, 25+i-taillecase/2, paint3);
         }
 
         //remplissage des cases
@@ -199,4 +202,6 @@ public class Grille extends View {
         // Gagne
         return true;
     }
+
+
 }
