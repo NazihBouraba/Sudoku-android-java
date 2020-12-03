@@ -20,7 +20,7 @@ public class Grille extends View {
     private int screenHeight;
     public int taillecase =25;
     private int n;
-
+    public static int taille_ecran =0;
     private Paint paint1;   // Pour dessiner la grille (lignes noires)
     private Paint paint2;   // Pour le texte des cases fixes
     private Paint paint3;   // Pour dessiner les lignes rouges (grosse)
@@ -95,7 +95,8 @@ public class Grille extends View {
         screenHeight = getHeight();
         int w = Math.min(screenWidth-50, screenHeight-50);
         w = w - (w%9);
-        Log.v("taille",""+w);
+        taille_ecran = w ;
+        Log.v("taille",""+taille_ecran);
         n = w / 9 ;
         Paint paint = new Paint();
         paint.setStrokeWidth(4);
