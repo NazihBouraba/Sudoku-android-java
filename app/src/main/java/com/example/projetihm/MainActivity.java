@@ -11,7 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-
+import java.util.*;
 import com.example.projetihm.Classes.SudokuExamples;
 
 import java.io.IOException;
@@ -19,6 +19,7 @@ import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    public ArrayList<String> exemples = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +36,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button apropos = (Button) findViewById(R.id.apropos);
         apropos.setOnClickListener(this);
 
-
-        new SudokuExamples("https://labsticc.univ-brest.fr/~bounceur/cours/android/tps/sudoku/index.php?v=",0).gets();
-
+       for (int i=0 ; i<= 29 ; i++) {
 
 
+           exemples.add(new SudokuExamples("https://labsticc.univ-brest.fr/~bounceur/cours/android/tps/sudoku/index.php?v=", i).gets());
+
+
+       }
+        Log.i("TAGSSS", exemples.toString());
 
     }
 

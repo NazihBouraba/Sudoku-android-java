@@ -22,13 +22,14 @@ import java.net.URLConnection;
 
 public class SudokuExamples  {
     String url ;
+    String ret;
     int v ;
     public SudokuExamples(String s ,int i) {
         url =s ;
         v= i;
     }
 
-    public void gets()
+    public String gets()
     {
         Thread thread = new Thread(new Runnable() {
 
@@ -38,16 +39,17 @@ public class SudokuExamples  {
 
                     Document doc = Jsoup.connect(url+v).get();
                     Element s =  doc.select("body").first();
-                    System.out.println("merde "+ s.text());
-
+                    ret =  s.text();
 
                 } catch (Exception e) {
                     e.printStackTrace();
+
                 }
             }
         });
 
         thread.start();
+        return ret ;
     }
 
 
