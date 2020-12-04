@@ -10,10 +10,13 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 
 import com.example.projetihm.Classes.Grille;
+import com.example.projetihm.Classes.Sauvgarde;
 
 import java.util.Arrays;
 
@@ -25,6 +28,7 @@ public class JeuActivity extends AppCompatActivity implements View.OnClickListen
     public int y ;
     public float xx ;
     public float yy ;
+    private TextView challane_num;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,20 +36,90 @@ public class JeuActivity extends AppCompatActivity implements View.OnClickListen
         g= (Grille) findViewById(R.id.grille);
         g.setOnClickListener(this);
         g.setOnTouchListener(this);
+        Button left_b = (Button) findViewById(R.id.leftb);
+        Button right_b = (Button) findViewById(R.id.rightb);
+        left_b.setOnClickListener(this);
+        right_b.setOnClickListener(this);
+        challane_num = (TextView) findViewById(R.id.challange_tv);
+        Sauvgarde ss= new Sauvgarde();
+        int index = ss.recuperer_last_index(this);
+        challane_num.setText(""+index);
+         changer_challange(index);
+
+    }
+
+    @Override
+    protected void onStop() {
+        Sauvgarde sauv = new Sauvgarde(g.matrix,g.fixIdx);
+        sauv.sauvgarder( Integer.parseInt(challane_num.getText().toString()),this);
+        sauv.sauvgarder_last_index(Integer.parseInt(challane_num.getText().toString()),this);
+        super.onStop();
+    }
+
+    @Override
+    protected void onPause() {
+        Sauvgarde sauv = new Sauvgarde(g.matrix,g.fixIdx);
+        sauv.sauvgarder( Integer.parseInt(challane_num.getText().toString()),this);
+        sauv.sauvgarder_last_index(Integer.parseInt(challane_num.getText().toString()),this);
+        super.onPause();
     }
 
     @Override
     public void onClick(View v) {
-         i = new Intent(this,ChoixActivity.class);
+        int challenge ;
+        switch (v.getId()){
 
-        x = (int) xx/(Grille.taille_ecran/9) ;
-        y = (int) yy/(Grille.taille_ecran/9) ;
-        i.putExtra("x",x);
-        i.putExtra("y",y);
-        //Log.v("POSITION","x= "+x+ "y= "+y);
-        if((x<9) && (y<9) && !g.fixIdx[y][x])
-         AgeDialog();
-      //  startActivity(i);
+            case R.id.grille :
+               i = new Intent(this,ChoixActivity.class);
+               x = (int) xx/(Grille.taille_ecran/9) ;
+               y = (int) yy/(Grille.taille_ecran/9) ;
+               i.putExtra("x",x);
+               i.putExtra("y",y);
+                //Log.v("POSITION","x= "+x+ "y= "+y);
+                     if((x<9) && (y<9) && !g.fixIdx[y][x])
+                         AgeDialog();
+                  //  startActivity(i);
+                break;
+            case R.id.leftb :
+                 challenge  = Integer.parseInt(challane_num.getText().toString());
+                if(challenge>0){
+                    challenge--;
+                    changer_challange(challenge);
+                }
+
+                break;
+
+            case R.id.rightb :
+                 challenge  = Integer.parseInt(challane_num.getText().toString());
+                if(challenge<29){
+                    challenge++;
+                    changer_challange(challenge);
+
+                }
+                break;
+
+        }
+    }
+
+
+    public void changer_challange(int i){
+        Sauvgarde ss= new Sauvgarde();
+       //int index = ss.recuperer_last_index(this);
+        challane_num.setText(""+i);
+        Sauvgarde last = ss.recuperer(i,this);
+        if(last == null){
+            challane_num.setText(""+i);
+            g.set(MainActivity.exemples.get(i));
+            g.dessiner();
+        }
+        else {
+            g.matrix = last.matrix;
+            g.fixIdx = last.fix;
+            g.dessiner();
+        }
+
+
+
     }
 
     @Override
@@ -77,7 +151,7 @@ public class JeuActivity extends AppCompatActivity implements View.OnClickListen
                 g.matrix[y][x] = number.getValue();
                 Log.v("VALEUR","x= "+number.getValue());
                 Log.v("position","x= "+x + "y= "+y);
-                if(g.c != null ){g.dessiner(g.c,""+number.getValue(),x,y);}
+                if(g.c != null ){g.dessiner();}
             }
         });
 

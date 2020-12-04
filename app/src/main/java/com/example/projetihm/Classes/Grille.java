@@ -16,7 +16,7 @@ import com.example.projetihm.R;
 
 public class Grille extends View {
 
-    public int taillecase =20;
+    public int taillecase =0;
     public int decalage = 5;
     private int n;
     public static int taille_ecran =0;
@@ -97,11 +97,8 @@ public class Grille extends View {
     }
 
 
-    public void dessiner(Canvas c,String s ,int x , int y){
+    public void dessiner(){
         this.invalidate();
-
-        this.invalidate();
-
     }
 
     @Override
@@ -109,7 +106,7 @@ public class Grille extends View {
         c= canvas ;
         int screenWidth = getWidth();
         int screenHeight = getHeight();
-        int w = Math.min(screenWidth , screenHeight );
+        int w = Math.min(screenWidth-10 , screenHeight-10 );
       //  int z = Math.max(screenWidth -00, screenHeight -00);
     //    decalage = (w-z)/2;
         w = w - (w%9);
