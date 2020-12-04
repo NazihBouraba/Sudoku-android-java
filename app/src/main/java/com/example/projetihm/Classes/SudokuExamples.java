@@ -8,6 +8,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.projetihm.MainActivity;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -22,7 +24,7 @@ import java.net.URLConnection;
 
 public class SudokuExamples  {
     String url ;
-    String ret;
+
     int v ;
     public SudokuExamples(String s ,int i) {
         url =s ;
@@ -39,7 +41,8 @@ public class SudokuExamples  {
 
                     Document doc = Jsoup.connect(url+v).get();
                     Element s =  doc.select("body").first();
-                    ret =  s.text();
+                    MainActivity.exemples.add( s.text());
+                    System.out.println("le contenu est " + s.text());
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -49,7 +52,7 @@ public class SudokuExamples  {
         });
 
         thread.start();
-        return ret ;
+        return null ;
     }
 
 

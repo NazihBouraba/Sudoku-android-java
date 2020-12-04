@@ -19,7 +19,7 @@ import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public ArrayList<String> exemples = new ArrayList<String>();
+    public static ArrayList<String> exemples = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,13 +37,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         apropos.setOnClickListener(this);
 
        for (int i=0 ; i<= 29 ; i++) {
-
-
-           exemples.add(new SudokuExamples("https://labsticc.univ-brest.fr/~bounceur/cours/android/tps/sudoku/index.php?v=", i).gets());
-
-
+           new SudokuExamples("https://labsticc.univ-brest.fr/~bounceur/cours/android/tps/sudoku/index.php?v=", i).gets();
        }
         Log.i("TAGSSS", exemples.toString());
+
 
     }
 

@@ -16,14 +16,15 @@ import com.example.projetihm.R;
 
 public class Grille extends View {
 
-    public int taillecase =0;
+    public int taillecase =20;
+    public int decalage = 5;
     private int n;
     public static int taille_ecran =0;
     private Paint paint1;   // Pour dessiner la grille (lignes noires)
     private Paint paint2;   // Pour le texte des cases fixes
     private Paint paint3;   // Pour dessiner les lignes rouges (grosse)
     private Paint paint4;   // Pour le texte noir des cases a modifier
-    private Paint paint5;
+    private Paint paint0;
     private Paint paints;// Pour le cadre
     public int[][] matrix = new int[9][9];
     public Canvas c ;
@@ -48,13 +49,13 @@ public class Grille extends View {
     @SuppressLint("ResourceAsColor")
     private void init() {
         //Grille de depart
-        set("000105000140000670080002400063070010900000003010090520007200080026000035000409000");
+        set("000100000140000670080002400063070010900000003010090020007200080026000030000409000");
 
         // Grille Gagnante
-        //set("672145398145983672389762451263574819958621743714398526597236184426817935831459267");
+        //set("672140398140983672389762401263074819908621743714398026097236184426817930831409267");
 
         // Grille Perdante
-        //set("672145198145983672389762451263574819958621743714398526597236184426817935831459267");
+        //set("672140198140983672389762401263074819908621743714398026097236184426817930831409267");
 
         paint1 = new Paint();
         paint1.setColor(R.color.black);
@@ -88,10 +89,10 @@ public class Grille extends View {
 
 
         // le cadre
-        paint5 = new Paint();
-        paint5.setStrokeWidth(10);
-        paint5.setAntiAlias     (true);
-        paint5.setColor(R.color.black);
+        paint0 = new Paint();
+        paint0.setStrokeWidth(10);
+        paint0.setAntiAlias     (true);
+        paint0.setColor(R.color.black);
 
     }
 
@@ -108,9 +109,13 @@ public class Grille extends View {
         c= canvas ;
         int screenWidth = getWidth();
         int screenHeight = getHeight();
-        int w = Math.min(screenWidth -50, screenHeight -50);
+        int w = Math.min(screenWidth , screenHeight );
+      //  int z = Math.max(screenWidth -00, screenHeight -00);
+    //    decalage = (w-z)/2;
         w = w - (w%9);
+
         taille_ecran = w ;
+      //  setMeasuredDimension(w, w);
      //   Log.v("taille",""+taille_ecran);
         n = w / 9 ;
         Paint paint = new Paint();
@@ -120,10 +125,10 @@ public class Grille extends View {
 
 
         // Dessiner w lignes verticles et w lignes horizontales noires
-        for(int i = 25 ; i<w ; i += n)
+        for(int i = decalage ; i<w ; i += n)
         {
             {
-               for(int j =25 ; j<w ;j+=n)
+               for(int j =decalage ; j<w ;j+=n)
                {
                 canvas.drawRect(i  ,j ,i+n- taillecase,j+n - taillecase,paint);
                }
@@ -131,14 +136,14 @@ public class Grille extends View {
             }
         }
         //le cadre
-        canvas.drawLine(10, 0, 10, w+25, paint5);
-        canvas.drawLine(10, 10, w+25, 10, paint5);
-        canvas.drawLine(w+25, 0, w+25, w+25, paint5);
-        canvas.drawLine(10, w+25, w+25, w+25, paint5);
+        canvas.drawLine(0, 0, 0, w+decalage, paint0);
+        canvas.drawLine(0, 0, w+decalage, 0, paint0);
+        canvas.drawLine(w+decalage, 0, w+decalage, w+decalage, paint0);
+        canvas.drawLine(0, w+decalage, w+decalage, w+decalage, paint0);
         // Dessiner 2 lignes rouges verticales et 2 lignes rouges horizontales
         for(int i = n*3 ; i<w ; i += n*3){
-          canvas.drawLine(25+i-taillecase/2, 10, 25+i-taillecase/2, w, paint3);
-           canvas.drawLine(10, 25+i-taillecase/2, w, 25+i-taillecase/2, paint3);
+          canvas.drawLine(decalage+i-taillecase/2, decalage, decalage+i-taillecase/2, w, paint3);
+           canvas.drawLine(decalage, decalage+i-taillecase/2, w, decalage+i-taillecase/2, paint3);
         }
 
         //remplissage des cases
@@ -146,11 +151,11 @@ public class Grille extends View {
             for (int j = 0; j < 9; j++) {
                 s = "" + (matrix[j][i] == 0 ? "" : matrix[j][i]);
                 if (fixIdx[j][i])
-                    canvas.drawText(s, 25+i * n + (n-taillecase)/2 -8 , 25+j * n
-                            + (n-taillecase)/2 +10, paint2);
+                    canvas.drawText(s, decalage+i * n + (n-taillecase)/2 -8 , decalage+j * n
+                            + (n-taillecase)/2 +decalage, paint2);
                 else
-                    canvas.drawText(s, 25+i * n + (n-taillecase)/2 -8, 25+j * n
-                            + (n-taillecase)/2 +10, paints);
+                    canvas.drawText(s, decalage+i * n + (n-taillecase)/2 -8, decalage+j * n
+                            + (n-taillecase)/2 +decalage, paints);
             }
         }
 
