@@ -29,7 +29,7 @@ public class Grille extends View {
     public int[][] matrix = new int[9][9];
     public Canvas c ;
     public boolean[][] fixIdx = new boolean[9][9];
-    private boolean[][] intouchable = new boolean[9][9];
+    public int[][] intouchable = new int[9][9];
 
     public Grille(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -178,6 +178,22 @@ public class Grille extends View {
                 fixIdx[i][j] = false;
             else
                 fixIdx[i][j] = true;
+        }
+    }
+    public void setp(String s, int i) {
+        // Remplir la ieme ligne de la matrice matrix avec un vecteur String s
+        int v;
+        for (int j = 0; j < 9; j++) {
+            v = s.charAt(j) - '0';
+            intouchable[i][j] = v;
+
+        }
+    }
+
+    public void setp(String s) {
+        // Remplir la matrice matrix a partir d'un vecteur String s
+        for (int i = 0; i < 9; i++) {
+            setp(s.substring(i * 9, i * 9 + 9), i);
         }
     }
 

@@ -3,6 +3,7 @@ package com.example.projetihm;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.projetihm.Classes.Grille;
 import com.example.projetihm.Classes.Sauvgarde;
@@ -29,10 +31,13 @@ public class JeuActivity extends AppCompatActivity implements View.OnClickListen
     public float xx ;
     public float yy ;
     private TextView challane_num;
+    private boolean modifier = false ;
+    private Activity activity ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jeu);
+        activity = this ;
         g= (Grille) findViewById(R.id.grille);
         g.setOnClickListener(this);
         g.setOnTouchListener(this);
@@ -83,8 +88,13 @@ public class JeuActivity extends AppCompatActivity implements View.OnClickListen
             case R.id.leftb :
                  challenge  = Integer.parseInt(challane_num.getText().toString());
                 if(challenge>0){
-                    challenge--;
-                    changer_challange(challenge);
+                    if(pas_de_modif(challenge) )
+                    { // si ya pas de changments
+
+                        challenge--;
+                        changer_challange(challenge);
+                    }
+                    else    {sauvgarderDialog(challenge);}
                 }
 
                 break;
@@ -92,8 +102,14 @@ public class JeuActivity extends AppCompatActivity implements View.OnClickListen
             case R.id.rightb :
                  challenge  = Integer.parseInt(challane_num.getText().toString());
                 if(challenge<29){
-                    challenge++;
-                    changer_challange(challenge);
+                   if(pas_de_modif(challenge) )
+                    { // si pas de changement
+
+                        challenge++;
+                        changer_challange(challenge);
+                    }
+                   else
+                   {sauvgarderDialog(challenge);}
 
                 }
                 break;
@@ -104,22 +120,45 @@ public class JeuActivity extends AppCompatActivity implements View.OnClickListen
 
     public void changer_challange(int i){
         Sauvgarde ss= new Sauvgarde();
-       //int index = ss.recuperer_last_index(this);
         challane_num.setText(""+i);
         Sauvgarde last = ss.recuperer(i,this);
-        if(last == null){
-            challane_num.setText(""+i);
+
+            if (last == null) {
+                challane_num.setText("" + i);
+                g.set(MainActivity.exemples.get(i));
+                g.dessiner();
+            } else {
+                g.matrix = last.matrix;
+                g.fixIdx = last.fix;
+                g.dessiner();
+            }
+
+
+
+
+    }
+
+    public boolean pas_de_modif(int i)
+    {
+        Sauvgarde ss= new Sauvgarde();
+        challane_num.setText(""+i);
+        Sauvgarde last = ss.recuperer(i,this);
+        if (last == null) {
+            g.setp(MainActivity.exemples.get(i));
+            if((Arrays.deepEquals(g.intouchable, g.matrix ))) //pas de moddif
+            {
+                return true;
+            }
+            challane_num.setText("" + i);
             g.set(MainActivity.exemples.get(i));
             g.dessiner();
+        } else {
+            if((Arrays.deepEquals(last.matrix, g.matrix ))) //pas de moddif
+            {
+                return true;
+            }
         }
-        else {
-            g.matrix = last.matrix;
-            g.fixIdx = last.fix;
-            g.dessiner();
-        }
-
-
-
+        return false;
     }
 
     @Override
@@ -158,6 +197,35 @@ public class JeuActivity extends AppCompatActivity implements View.OnClickListen
         alert.setNegativeButton("ANNULER", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
 
+            }
+        });
+
+        alert.show();
+    }
+
+    public void sauvgarderDialog(int i){
+
+        final AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setCancelable(false);
+        alert.setTitle("sauvgarde progression");
+        alert.setMessage("voulez-vous sauvgarder votre progression ?");
+        LinearLayout l1 = new LinearLayout(getApplicationContext());
+        l1.setOrientation(LinearLayout.HORIZONTAL);
+        l1.setHorizontalGravity(Gravity.CENTER_HORIZONTAL);
+        alert.setView(l1);
+        alert.setPositiveButton("oui", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int whichButton) {
+                Sauvgarde sauv = new Sauvgarde(g.matrix,g.fixIdx);
+                sauv.sauvgarder( Integer.parseInt(challane_num.getText().toString()),activity);
+                changer_challange(i+1);
+
+            }
+        });
+
+        alert.setNegativeButton("non", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                changer_challange(i+1);
             }
         });
 
