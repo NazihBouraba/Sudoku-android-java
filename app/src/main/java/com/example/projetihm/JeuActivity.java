@@ -1,5 +1,6 @@
 package com.example.projetihm;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +9,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -23,6 +25,7 @@ import com.example.projetihm.Classes.Grille;
 import com.example.projetihm.Classes.Sauvgarde;
 
 import java.util.Arrays;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class JeuActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
 
@@ -46,6 +49,8 @@ public class JeuActivity extends AppCompatActivity implements View.OnClickListen
         Button left_b = (Button) findViewById(R.id.leftb);
         Button right_b = (Button) findViewById(R.id.rightb);
         Button valider = (Button) findViewById(R.id.valider);
+        Button aleatoire = (Button) findViewById(R.id.aleatoire);
+        aleatoire.setOnClickListener(this);
         valider.setOnClickListener(this);
         left_b.setOnClickListener(this);
         right_b.setOnClickListener(this);
@@ -73,10 +78,13 @@ public class JeuActivity extends AppCompatActivity implements View.OnClickListen
         super.onPause();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("ResourceAsColor")
     @Override
     public void onClick(View v) {
         int challenge ;
+        g.paint0.setColor(((R.color.black)));
+        g.dessiner();
         switch (v.getId()){
 
             case R.id.grille :
@@ -101,8 +109,9 @@ public class JeuActivity extends AppCompatActivity implements View.OnClickListen
                         challenge--;
                         changer_challange(challenge);
                     }
-                    else    {sauvgarderDialog(challenge);}
+                    else    {sauvgarderDialog(challenge,-1);}
                 }
+                break;
 
             case R.id.valider :
                 if(g.gagne()){
@@ -127,9 +136,29 @@ public class JeuActivity extends AppCompatActivity implements View.OnClickListen
                         changer_challange(challenge);
                     }
                    else
-                   {sauvgarderDialog(challenge);}
+                   {sauvgarderDialog(challenge,1);}
 
                 }
+                break;
+
+            case R.id.aleatoire :
+
+                challenge  = Integer.parseInt(challane_num.getText().toString());
+                if(challenge<30 && challenge>-1){
+                    if(pas_de_modif(challenge) )
+                    { // si pas de changement
+
+                        challenge  = ThreadLocalRandom.current().nextInt(0, 30 );
+                        changer_challange(challenge);
+                    }
+                    else
+                    {sauvgarderDialog(challenge,0);}
+
+                }
+                break;
+            default:
+                g.paint0.setColor(((R.color.black)));
+                g.dessiner();
                 break;
 
         }
@@ -221,7 +250,7 @@ public class JeuActivity extends AppCompatActivity implements View.OnClickListen
         alert.show();
     }
 
-    public void sauvgarderDialog(int i){
+    public void sauvgarderDialog(int i,int j){
 
         final AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setCancelable(false);
@@ -236,14 +265,14 @@ public class JeuActivity extends AppCompatActivity implements View.OnClickListen
             public void onClick(DialogInterface dialog, int whichButton) {
                 Sauvgarde sauv = new Sauvgarde(g.matrix,g.fixIdx);
                 sauv.sauvgarder( Integer.parseInt(challane_num.getText().toString()),activity);
-                changer_challange(i+1);
+                changer_challange(i+j);
 
             }
         });
 
         alert.setNegativeButton("non", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                changer_challange(i+1);
+                changer_challange(i+j);
             }
         });
 

@@ -2,6 +2,7 @@ package com.example.projetihm.Classes;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -16,7 +17,7 @@ import com.example.projetihm.R;
 
 public class Grille extends View {
 
-    public int taillecase =0;
+    public int taillecase =20;
     public int decalage = 5;
     private int n;
     public static int taille_ecran =0;
@@ -34,22 +35,88 @@ public class Grille extends View {
 
     public Grille(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init();
+
+        init(context,attrs);
     }
 
     public Grille(Context context, AttributeSet attrs) {
+
         super(context, attrs);
-        init();
+        init(context,attrs);
     }
 
     public Grille(Context context) {
         super(context);
-        init();
+        init(context);
+    }
+
+
+
+    @SuppressLint("ResourceAsColor")
+    private void init(Context context) {
+
+        //Grille de depart
+
+
+        set("000100000140000670080002400063070010900000003010090020007200080026000030000409000");
+
+        // Grille Gagnante
+        //set("672140398140983672389762401263074819908621743714398026097236184426817930831409267");
+
+        // Grille Perdante
+        //set("672140198140983672389762401263074819908621743714398026097236184426817930831409267");
+
+        paint1 = new Paint();
+        paint1.setColor(R.color.black);
+        paint1.setAntiAlias(true);
+        // Couleur noire
+
+        paint2 = new Paint();
+        paint2.setTextSize(30);
+        paint2.setColor(Color.parseColor("#E91E63")); //rouge numeros
+        paint2.setAntiAlias(true);
+
+
+        paints = new Paint();
+        paints.setTextSize(30);
+        paints.setColor(Color.parseColor("#FF30FF33")); // vert les ajoutés
+        paints.setAntiAlias(true);
+
+
+        // Couleur rouge
+        // Taille du texte
+        // Centre le texte
+
+        paint3 = new Paint();
+        paint3.setColor(Color.parseColor("#E91E63")); //ligne rouges
+        paint3.setAntiAlias(true);
+        paint3.setStrokeWidth(7);
+        // Couleur rouge et grosses lignes
+
+        // Paint 4 ?
+
+
+
+        // le cadre
+        paint0 = new Paint();
+        paint0.setStrokeWidth(20);
+        paint0.setAntiAlias(true);
+        paint0.setColor(R.color.black);
+
     }
 
     @SuppressLint("ResourceAsColor")
-    private void init() {
+
+    private void init(Context context, AttributeSet attrs) {
+
         //Grille de depart
+        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.Grille, 0, 0);
+        try {
+            taillecase = ta.getInt(R.styleable.Grille_taille_case, 0);
+        } finally {
+            ta.recycle();
+        }
+
         set("000100000140000670080002400063070010900000003010090020007200080026000030000409000");
 
         // Grille Gagnante

@@ -16,9 +16,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjetIHM">
-        <activity android:name=".ChoixActivity"></activity>
-        <activity android:name=".AboutActivity" />
-        <activity android:name=".JeuActivity" />
+        <activity
+            android:name=".ChoixActivity"
+            android:parentActivityName="com.example.projetihm.MainActivity" />
+        <activity android:name=".AboutActivity"
+            android:parentActivityName="com.example.projetihm.MainActivity"
+            />
+        <activity android:name=".JeuActivity"
+            android:parentActivityName="com.example.projetihm.MainActivity"
+            />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -3,4 +3,7 @@
     <string name="jouer">Jouer</string>
     <string name="a_propos">A propos</string>
     <string name="valider">Valider</string>
+    <string name="choix_aleatoire">choix aleatoire</string>
+    <string name="retour">Retour</string>
+    <string name="sudoku">Sudoku</string>
 </resources>

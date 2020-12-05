@@ -54,10 +54,11 @@
         android:id="@+id/valider"
         android:layout_width="111dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="112dp"
+        android:layout_marginBottom="36dp"
         android:text="Valider"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        app:layout_constraintHorizontal_bias="0.468"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -73,4 +74,15 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/leftb"
         app:layout_constraintTop_toTopOf="@+id/rightb" />
+
+    <Button
+        android:id="@+id/aleatoire"
+        android:layout_width="wrap_content"
+        android:layout_height="46dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/choix_aleatoire"
+        app:layout_constraintBottom_toTopOf="@+id/valider"
+        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        app:layout_constraintHorizontal_bias="0.468"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
