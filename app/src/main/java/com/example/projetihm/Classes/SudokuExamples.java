@@ -33,16 +33,18 @@ public class SudokuExamples  {
 
     public String gets()
     {
+
         Thread thread = new Thread(new Runnable() {
 
             @Override
             public void run() {
                 try  {
-
+                    MainActivity.boucle ++;
+                    MainActivity.pb.setProgress(MainActivity.boucle);
                     Document doc = Jsoup.connect(url+v).get();
                     Element s =  doc.select("body").first();
                     MainActivity.exemples.add( s.text());
-                  //  System.out.println("le contenu est " + s.text());
+
 
                 } catch (Exception e) {
                     e.printStackTrace();

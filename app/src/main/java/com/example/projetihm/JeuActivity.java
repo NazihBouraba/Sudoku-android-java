@@ -3,9 +3,11 @@ package com.example.projetihm;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -43,6 +45,8 @@ public class JeuActivity extends AppCompatActivity implements View.OnClickListen
         g.setOnTouchListener(this);
         Button left_b = (Button) findViewById(R.id.leftb);
         Button right_b = (Button) findViewById(R.id.rightb);
+        Button valider = (Button) findViewById(R.id.valider);
+        valider.setOnClickListener(this);
         left_b.setOnClickListener(this);
         right_b.setOnClickListener(this);
         challane_num = (TextView) findViewById(R.id.challange_tv);
@@ -69,6 +73,7 @@ public class JeuActivity extends AppCompatActivity implements View.OnClickListen
         super.onPause();
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onClick(View v) {
         int challenge ;
@@ -80,6 +85,8 @@ public class JeuActivity extends AppCompatActivity implements View.OnClickListen
                y = (int) yy/(Grille.taille_ecran/9) ;
                i.putExtra("x",x);
                i.putExtra("y",y);
+                g.paint0.setColor(R.color.black);
+                g.dessiner();
                 //Log.v("POSITION","x= "+x+ "y= "+y);
                      if((x<9) && (y<9) && !g.fixIdx[y][x])
                          AgeDialog();
@@ -96,6 +103,17 @@ public class JeuActivity extends AppCompatActivity implements View.OnClickListen
                     }
                     else    {sauvgarderDialog(challenge);}
                 }
+
+            case R.id.valider :
+                if(g.gagne()){
+                    g.paint0.setColor(Color.parseColor("#30FF33"));
+                    g.dessiner();
+                }
+                else {
+                    g.paint0.setColor(Color.parseColor("#9E0000"));
+                    g.dessiner();
+                }
+
 
                 break;
 

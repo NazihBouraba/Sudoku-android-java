@@ -9,4 +9,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#E91E63</color>
     <color name="green">#30FF33</color>
+    <color name="orange">#F17406</color>
+    <color name="marron">#05A8EA</color>
+    <color name="rouge">#9E0000</color>
+
+
 </resources>

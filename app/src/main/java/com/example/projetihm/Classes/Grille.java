@@ -24,7 +24,8 @@ public class Grille extends View {
     private Paint paint2;   // Pour le texte des cases fixes
     private Paint paint3;   // Pour dessiner les lignes rouges (grosse)
     private Paint paint4;   // Pour le texte noir des cases a modifier
-    private Paint paint0;
+    public Paint paint0 ;
+    //cadre
     private Paint paints;// Pour le cadre
     public int[][] matrix = new int[9][9];
     public Canvas c ;
@@ -64,13 +65,13 @@ public class Grille extends View {
 
         paint2 = new Paint();
         paint2.setTextSize(30);
-        paint2.setColor(Color.parseColor("#E91E63"));
+        paint2.setColor(Color.parseColor("#E91E63")); //rouge numeros
         paint2.setAntiAlias(true);
 
 
         paints = new Paint();
         paints.setTextSize(30);
-        paints.setColor(Color.parseColor("#FF30FF33"));
+        paints.setColor(Color.parseColor("#FF30FF33")); // vert les ajoutés
         paints.setAntiAlias(true);
 
 
@@ -79,7 +80,7 @@ public class Grille extends View {
         // Centre le texte
 
         paint3 = new Paint();
-        paint3.setColor(Color.parseColor("#E91E63"));
+        paint3.setColor(Color.parseColor("#E91E63")); //ligne rouges
         paint3.setAntiAlias(true);
         paint3.setStrokeWidth(7);
         // Couleur rouge et grosses lignes
@@ -90,8 +91,8 @@ public class Grille extends View {
 
         // le cadre
         paint0 = new Paint();
-        paint0.setStrokeWidth(10);
-        paint0.setAntiAlias     (true);
+        paint0.setStrokeWidth(20);
+        paint0.setAntiAlias(true);
         paint0.setColor(R.color.black);
 
     }
@@ -101,6 +102,7 @@ public class Grille extends View {
         this.invalidate();
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onDraw(Canvas canvas) {
         c= canvas ;
@@ -117,6 +119,7 @@ public class Grille extends View {
         n = w / 9 ;
         Paint paint = new Paint();
         paint.setStrokeWidth(4);
+        paint.setColor(Color.parseColor("#05A8EA"));
         paint.setStyle(Paint.Style.STROKE);
         String s;
 

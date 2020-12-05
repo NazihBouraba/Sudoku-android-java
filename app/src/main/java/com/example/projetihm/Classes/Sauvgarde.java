@@ -46,6 +46,7 @@ public class Sauvgarde {
         SharedPreferences mPrefs = c.getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         prefsEditor.putInt("index", i);
+        prefsEditor.commit();
     }
 
     public int recuperer_last_index(Activity c ){
